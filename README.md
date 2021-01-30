@@ -6,7 +6,7 @@ Steps:
 
 This javascript is used to implement HTS service with various usecases.
 
-USECASE: Real Estate
+USECASE: Vaccine Passport adn Fine Art Tokenization 
 
 Implement a token service.
 First: create two user.
