@@ -6,7 +6,7 @@ Steps:
 
 This javascript is used to implement HTS service with various usecases.
 
-USECASE: Real Estate
+USECASE: Vaccine Passport adn Fine Art Tokenization 
 
 Implement a token service.
 First: create two user.
@@ -39,9 +39,12 @@ H21: Create Shadwell NFT and link 100 Fungible Tokens under that
 H21: Reading from the data in file services
 H21: Updating the docuemtns stored in file service-adding the documents
 H21: Updating the docuemnts- updating the same docuements, overwriting it or editing it 
+<<<<<<< HEAD
 
 ??
 1. tokens signing.
 2. integrate jubayers code.
 3. follow up remaining code.
 4. Android 
+=======
+>>>>>>> aad7aa358c3e099ef1c096d986ce7c284262fac9
