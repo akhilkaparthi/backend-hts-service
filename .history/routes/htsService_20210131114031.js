@@ -327,6 +327,21 @@ async function tokenCreate(token) {
     }
 }
 
+async function tokenGetInfo(token) {
+    const tokenResponse = token;
+    try {
+      const info = await new TokenInfoQuery()
+        .setTokenId(token.tokenId)
+        .execute(HederaClient);
+  
+      tokenResponse.totalSupply = info.totalSupply;
+      tokenResponse.expiry = info.expirationTime.toDate();
+    } catch (err) {
+        console.log(err);
+    }
+  
+    return tokenResponse;
+  }  
 
 router.route('/create-account').post(async (req, res) => {
     try {
@@ -564,7 +579,7 @@ router.route('/buy').post(async (req, res) => {
 router.route('/getTokenInfo').post(async (req, res) => {
 
     const token = {}
-    token.tokenId = req.body.tokenId;
+    token.tokenId = req.query.tokenId
    const info = await tokenGetInfo(token)
    res.json(info)
     

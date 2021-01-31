@@ -327,6 +327,21 @@ async function tokenCreate(token) {
     }
 }
 
+async function tokenGetInfo(token) {
+    const tokenResponse = token;
+    try {
+      const info = await new TokenInfoQuery()
+        .setTokenId(token.tokenId)
+        .execute(HederaClient);
+  
+      tokenResponse.totalSupply = info.totalSupply;
+      tokenResponse.expiry = info.expirationTime.toDate();
+    } catch (err) {
+        console.log(err);
+    }
+  
+    return tokenResponse;
+  }  
 
 router.route('/create-account').post(async (req, res) => {
     try {
@@ -496,8 +511,8 @@ router.route('/transfer').post(async (req, res) => {
         console.log(req);
         let hBars = 0;
         const tx = await new TransferTransaction();
-        tx.addTokenTransfer(req.body.token_id, req.body.sid, -req.body.amount);
-        tx.addTokenTransfer(req.body.token_id, req.body.rid, req.body.amount);
+        tx.addTokenTransfer(process.env.TOKEN_ID, req.body.sid, -req.body.amount);
+        tx.addTokenTransfer(process.env.TOKEN_ID, req.body.rid, req.body.amount);
         hBars = req.body.hBars;
         if (hBars !== 0) {
           tx.addHbarTransfer(req.body.sid, new Hbar(hBars));
@@ -560,33 +575,5 @@ router.route('/buy').post(async (req, res) => {
         res.json({"error": error});
       }
   });
-
-router.route('/getTokenInfo').post(async (req, res) => {
-
-    const token = {}
-    token.tokenId = req.body.tokenId;
-   const info = await tokenGetInfo(token)
-   res.json(info)
-    
-})
-
-async function tokenGetInfo(token) {
-    const client = HederaClient;
-    const tokenResponse = token;
-    try {
-      const info = await new TokenInfoQuery()
-        .setTokenId(token.tokenId)
-        .execute(client);
-  
-        //console.log(JSON.stringify(info))
-      tokenResponse.totalSupply = info.totalSupply;
-      tokenResponse.expiry = info.expirationTime.toDate();
-      tokenResponse.symbol = info.symbol
-    } catch (err) {
-      console.log(err.message);
-    }
-  
-    return tokenResponse;
-  }
 
 module.exports = router;

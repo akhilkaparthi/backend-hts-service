@@ -564,7 +564,7 @@ router.route('/buy').post(async (req, res) => {
 router.route('/getTokenInfo').post(async (req, res) => {
 
     const token = {}
-    token.tokenId = req.body.tokenId;
+    token.tokenId = req.query.tokenId
    const info = await tokenGetInfo(token)
    res.json(info)
     
