@@ -18,13 +18,13 @@ const hederaRouter = require('./routes/fees')
 const htsApi = require('./routes/hts-api');
 const htsServiceAPI = require('./routes/htsService');
 const htsFileServiceApi = require('./routes/FileServiceApi');
-const atomicSwapApi = require('./routes/atomic-swap');
+const atomic-swap = require('./routes/atomic-swap');
 
 
 app.use('/hedera',hederaRouter);
 app.use('/hts-api',htsApi);
 app.use('/htsServiceAPI',htsServiceAPI);
-app.use('/atomicSwapApi',atomicSwapApi);
+app.use('/htsFileServiceApi',htsFileServiceApi);
 
 app.listen(port, () => {
     console.log(`server is listning on port ${port}`);

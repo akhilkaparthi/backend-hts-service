@@ -12,6 +12,14 @@ router.route('/create-nfToken').post(async (req, res) => {
 
 
         const privateKey = await PrivateKey.generate();
+        // create an immutable file with the token properties
+        // let fileToSave = this.file;
+        // console.log("this.model", this.file);
+
+        // if (typeof imageBase64() !== "undefined") {
+        //     fileToSave.photo = this.imageBase64();
+        // }
+        // const fileId = await fileCreate(JSON.stringify(fileToSave));
         let fileId = req.body.fileId;
         const tokenName = req.body.tokename
         const isKyc = req.body.iskyc
@@ -327,15 +335,15 @@ router.route('/create-account').post(async (req, res) => {
         console.log(`private key = ${privateKey}`);
         console.log(`public key = ${privateKey.publicKey}`);
 
-        var memo = "";
+        let memo = "";
         if(req.body.memo != ""){
-            memo = req.body.memo + "";
+            memo = req.body.memo.toString;
         }
 
         const response = await new AccountCreateTransaction()
             .setKey(privateKey.publicKey)
-            .setMaxTransactionFee(new Hbar(1000))
-            .setInitialBalance(new Hbar(1000))
+            .setMaxTransactionFee(new Hbar(100))
+            .setInitialBalance(new Hbar(100))
             .setTransactionMemo(memo)
             .execute(HederaClient);
 

@@ -468,7 +468,7 @@ router.route('/topup150').post(async (req, res) => {
         tx.addHbarTransfer(req.body.id, new Hbar(hBars));
         tx.addHbarTransfer(process.env.MY_ACCOUNT_ID, new Hbar(-hBars));
   
-        tx.setMaxTransactionFee(new Hbar(500));
+        tx.setMaxTransactionFee(new Hbar(1500));
         tx.freezeWith(HederaClient);
   
         const signTx = await tx.sign(PrivateKey.fromString(req.body.PK));

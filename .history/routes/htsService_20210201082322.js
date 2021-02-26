@@ -329,13 +329,14 @@ router.route('/create-account').post(async (req, res) => {
 
         var memo = "";
         if(req.body.memo != ""){
-            memo = req.body.memo + "";
+            memo = req.body.memo;
+            memo = memo.toString();
         }
 
         const response = await new AccountCreateTransaction()
             .setKey(privateKey.publicKey)
-            .setMaxTransactionFee(new Hbar(1000))
-            .setInitialBalance(new Hbar(1000))
+            .setMaxTransactionFee(new Hbar(100))
+            .setInitialBalance(new Hbar(100))
             .setTransactionMemo(memo)
             .execute(HederaClient);
 

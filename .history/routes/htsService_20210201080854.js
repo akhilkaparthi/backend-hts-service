@@ -12,6 +12,14 @@ router.route('/create-nfToken').post(async (req, res) => {
 
 
         const privateKey = await PrivateKey.generate();
+        // create an immutable file with the token properties
+        // let fileToSave = this.file;
+        // console.log("this.model", this.file);
+
+        // if (typeof imageBase64() !== "undefined") {
+        //     fileToSave.photo = this.imageBase64();
+        // }
+        // const fileId = await fileCreate(JSON.stringify(fileToSave));
         let fileId = req.body.fileId;
         const tokenName = req.body.tokename
         const isKyc = req.body.iskyc
@@ -327,16 +335,15 @@ router.route('/create-account').post(async (req, res) => {
         console.log(`private key = ${privateKey}`);
         console.log(`public key = ${privateKey.publicKey}`);
 
-        var memo = "";
-        if(req.body.memo != ""){
-            memo = req.body.memo + "";
-        }
-
         const response = await new AccountCreateTransaction()
             .setKey(privateKey.publicKey)
-            .setMaxTransactionFee(new Hbar(1000))
-            .setInitialBalance(new Hbar(1000))
-            .setTransactionMemo(memo)
+            .setMaxTransactionFee(new Hbar(100))
+            .setInitialBalance(new Hbar(100))
+            .setTransactionMemo('{
+                "id": "0.0.293829",
+                "privateKey": "302e020100300506032b657004220420a8ab974656ae63513a4b4df251d7a4829226cefe2df4e1d616ca395e069b3299",
+                "publicKey": "302a300506032b65700321005b500f9891897fc3ac6c3f1df72855f6ee97b687b8581ca06c0aff86fb98883b"
+            }')
             .execute(HederaClient);
 
         const transactionReceipt = await response.getReceipt(HederaClient);

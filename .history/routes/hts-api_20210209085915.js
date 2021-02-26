@@ -427,8 +427,8 @@ router.route('/create-account').post(async (req, res) => {
 
     const response = await new AccountCreateTransaction()
       .setKey(privateKey.publicKey)
-      .setMaxTransactionFee(new Hbar(1000))
-      .setInitialBalance(new Hbar(1000))
+      .setMaxTransactionFee(new Hbar(500))
+      .setInitialBalance(new Hbar(50))
       .execute(HederaClient);
 
     const transactionReceipt = await response.getReceipt(HederaClient);

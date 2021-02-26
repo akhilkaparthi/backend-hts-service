@@ -24,7 +24,7 @@ const atomicSwapApi = require('./routes/atomic-swap');
 app.use('/hedera',hederaRouter);
 app.use('/hts-api',htsApi);
 app.use('/htsServiceAPI',htsServiceAPI);
-app.use('/atomicSwapApi',atomicSwapApi);
+app.use('/htsFileServiceApi',htsFileServiceApi);
 
 app.listen(port, () => {
     console.log(`server is listning on port ${port}`);

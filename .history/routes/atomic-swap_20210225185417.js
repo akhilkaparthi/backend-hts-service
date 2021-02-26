@@ -157,10 +157,13 @@ router.route('/create-token').post(async (req, res) => {
     const privateKey = await PrivateKey.generate();
 
     const treasury_account_id = process.env.TREASURY_ACCOUNT_ID;
-   
+    let name = req.query.name;
+    let symbol = req.query.symbol;
+   console.log({name});
+   console.log({symbol});
     const token = {
-        name: "Scoin",
-        symbol: "S",
+        name: name,
+        symbol: symbol,
         decimals: 0,
         initialSupply: 20,
         adminKey: privateKey.toString(),
@@ -290,8 +293,8 @@ async function tokenCreate(token) {
                     ", memo=" +
                     token.message +
                     ", ...",
-                outputs: "tokenId=" + token.tokenId.toString()+
-                "token_private_key=" + token.key+
+                outputs: "tokenId=" + token.tokenId.toString() +","+
+                "token_private_key=" + token.key +","+
                 "token_public_key=" + sigKey.publicKey
             };
 
@@ -387,6 +390,44 @@ function checkProvided(environmentVariable) {
 }
 
 router.route('/associate').post(async (req, res) => {
+    try {
+        //console.log(req);
+        const transaction = await new TokenAssociateTransaction();
+        transaction.setTokenIds([req.body.token_id]);
+        transaction.setAccountId(req.body.id);
+        transaction.setMaxTransactionFee(new Hbar(5));
+  
+        const client = hederaClientLocal(process.env.TREASURY_ACCOUNT_ID, process.env.TREASURY_PRIVATE_KEY);
+
+        await transaction.signWithOperator(client);
+        await transaction.sign(PrivateKey.fromString(req.body.privateKey));
+  
+        const response = await transaction.execute(client);
+  
+        const transactionReceipt = await response.getReceipt(client);
+
+        // const tx = await new TransferTransaction();
+        // tx.addTokenTransfer(process.env.TOKEN_ID, process.env.TREASURY_ACCOUNT_ID, -20);
+        // tx.addTokenTransfer(process.env.TOKEN_ID, req.body.id, 20);
+
+        // tx.setMaxTransactionFee(new Hbar(5));
+        // tx.freezeWith(HederaClient);
+  
+        // const signTx = await tx.sign(PrivateKey.fromString(process.env.TREASURY_PRIVATE_KEY));
+
+        // const txResponse = await signTx.execute(HederaClient);
+
+        // const receipt = await txResponse.getReceipt(HederaClient);
+        
+        res.json({status: "successfully associated"});
+        
+      } catch (error) {
+        //console.log(error);
+        res.json({"error": error});
+      }
+});
+
+router.route('/kyc').post(async (req, res) => {
     try {
         //console.log(req);
         const transaction = await new TokenAssociateTransaction();

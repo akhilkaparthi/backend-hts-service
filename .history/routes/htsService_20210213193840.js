@@ -461,14 +461,14 @@ router.route('/account-info').post(async (req, res) => {
 router.route('/topup150').post(async (req, res) => {
     try {
         console.log(req);
-        let hBars = 150;
+        let hBars = 1000;
         const tx = await new TransferTransaction();
         // tx.addTokenTransfer(process.env.TOKEN_ID, req.body.sid, -req.body.amount);
         // tx.addTokenTransfer(process.env.TOKEN_ID, req.body.rid, req.body.amount);
         tx.addHbarTransfer(req.body.id, new Hbar(hBars));
         tx.addHbarTransfer(process.env.MY_ACCOUNT_ID, new Hbar(-hBars));
   
-        tx.setMaxTransactionFee(new Hbar(500));
+        tx.setMaxTransactionFee(new Hbar(1500));
         tx.freezeWith(HederaClient);
   
         const signTx = await tx.sign(PrivateKey.fromString(req.body.PK));

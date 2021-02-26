@@ -159,8 +159,8 @@ router.route('/create-token').post(async (req, res) => {
     const treasury_account_id = process.env.TREASURY_ACCOUNT_ID;
    
     const token = {
-        name: "Scoin",
-        symbol: "S",
+        name: req.params.name,
+        symbol: req.params.symbol,
         decimals: 0,
         initialSupply: 20,
         adminKey: privateKey.toString(),
@@ -290,7 +290,7 @@ async function tokenCreate(token) {
                     ", memo=" +
                     token.message +
                     ", ...",
-                outputs: "tokenId=" + token.tokenId.toString()+
+                outputs: "tokenId=" + token.tokenId.toString()+","
                 "token_private_key=" + token.key+
                 "token_public_key=" + sigKey.publicKey
             };
